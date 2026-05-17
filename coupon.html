@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 优惠券">
+  <title>优惠券</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .coupon-page{padding-top:100px;padding-bottom:120px}
+    .coupon-list{padding:20px}
+    .coupon-item{display:flex;background:#fff;border-radius:16px;margin-bottom:20px;overflow:hidden}
+    .coupon-left{width:200px;background:#ff6034;color:#fff;padding:40px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .coupon-money{font-size:48px;font-weight:bold}
+    .coupon-condition{font-size:22px;margin-top:8px}
+    .coupon-right{flex:1;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
+    .coupon-name{font-size:28px;color:#333;font-weight:bold}
+    .coupon-time{font-size:22px;color:#999;margin-top:8px}
+    .coupon-btn{width:120px;height:56px;background:#ff6034;color:#fff;border-radius:28px;font-size:26px;display:flex;align-items:center;justify-content:center;margin-top:16px}
+    .coupon-item.used{opacity:0.6}
+    .coupon-item.used .coupon-left{background:#999}
+    .coupon-item.used .coupon-btn{background:#999}
+    .empty-state{padding:200px 0;display:flex;flex-direction:column;align-items:center}
+    .empty-icon{font-size:120px;margin-bottom:30px}
+    .empty-text{font-size:28px;color:#999}
+  </style>
+</head>
+<body>
+  <div class="page-header"><a href="user.html" class="back-btn">←</a><div class="page-title">优惠券</div><div style="width:60px"></div></div>
+  <div class="coupon-page">
+    <div class="coupon-list">
+      <div class="coupon-item">
+        <div class="coupon-left">
+          <div class="coupon-money">¥10</div>
+          <div class="coupon-condition">满50可用</div>
+        </div>
+        <div class="coupon-right">
+          <div>
+            <div class="coupon-name">新人专享券</div>
+            <div class="coupon-time">有效期至 2024-12-31</div>
+          </div>
+          <div class="coupon-btn" onclick="useCoupon(this)">立即使用</div>
+        </div>
+      </div>
+      <div class="coupon-item">
+        <div class="coupon-left">
+          <div class="coupon-money">¥20</div>
+          <div class="coupon-condition">满100可用</div>
+        </div>
+        <div class="coupon-right">
+          <div>
+            <div class="coupon-name">限时满减券</div>
+            <div class="coupon-time">有效期至 2024-12-31</div>
+          </div>
+          <div class="coupon-btn" onclick="useCoupon(this)">立即使用</div>
+        </div>
+      </div>
+      <div class="coupon-item used">
+        <div class="coupon-left">
+          <div class="coupon-money">¥50</div>
+          <div class="coupon-condition">满200可用</div>
+        </div>
+        <div class="coupon-right">
+          <div>
+            <div class="coupon-name">已使用优惠券</div>
+            <div class="coupon-time">已于 2024-05-15 使用</div>
+          </div>
+          <div class="coupon-btn">已使用</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    function useCoupon(btn){btn.textContent='已领取';btn.style.background='#999';btn.onclick=null;alert('优惠券已领取')}
+  </script>
+</body>
+</html>

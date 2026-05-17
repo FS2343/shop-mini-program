@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 我的收藏">
+  <title>我的收藏</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .collect-page{padding-top:100px;padding-bottom:120px}
+    .collect-list{padding:20px}
+    .collect-item{display:flex;background:#fff;border-radius:16px;padding:30px;margin-bottom:20px}
+    .collect-img{width:180px;height:180px;background:#f5f5f5;border-radius:12px;margin-right:20px;display:flex;align-items:center;justify-content:center;font-size:60px;flex-shrink:0}
+    .collect-info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .collect-name{font-size:28px;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .collect-bottom{display:flex;justify-content:space-between;align-items:center}
+    .collect-price{font-size:32px;color:#ff6034;font-weight:bold}
+    .collect-action{display:flex}
+    .action-btn{width:120px;height:56px;border-radius:28px;font-size:26px;display:flex;align-items:center;justify-content:center;margin-left:16px}
+    .action-btn.delete{background:#fff;color:#666;border:1px solid #ddd}
+    .action-btn.buy{background:#ff6034;color:#fff}
+    .empty-state{padding:200px 0;display:flex;flex-direction:column;align-items:center}
+    .empty-icon{font-size:120px;margin-bottom:30px}
+    .empty-text{font-size:28px;color:#999;margin-bottom:40px}
+  </style>
+</head>
+<body>
+  <div class="page-header"><a href="user.html" class="back-btn">←</a><div class="page-title">我的收藏</div><div style="width:60px"></div></div>
+  <div class="collect-page">
+    <div class="collect-list">
+      <div class="collect-item">
+        <a href="detail.html?id=1" class="collect-img">🍎</a>
+        <div class="collect-info">
+          <a href="detail.html?id=1" class="collect-name">新鲜红富士苹果 5斤装</a>
+          <div class="collect-bottom">
+            <div class="collect-price">¥29.9</div>
+            <div class="collect-action">
+              <div class="action-btn delete" onclick="deleteCollect(this)">删除</div>
+              <a href="cart.html" class="action-btn buy">加入购物车</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="collect-item">
+        <a href="detail.html?id=3" class="collect-img">📱</a>
+        <div class="collect-info">
+          <a href="detail.html?id=3" class="collect-name">iPhone 15 Pro Max 256G</a>
+          <div class="collect-bottom">
+            <div class="collect-price">¥8999</div>
+            <div class="collect-action">
+              <div class="action-btn delete" onclick="deleteCollect(this)">删除</div>
+              <a href="cart.html" class="action-btn buy">加入购物车</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    function deleteCollect(btn){if(confirm('确定删除该收藏吗？')){btn.closest('.collect-item').remove();alert('已删除')}}
+  </script>
+</body>
+</html>

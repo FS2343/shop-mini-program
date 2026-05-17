@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 登录">
+  <title>登录</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: linear-gradient(135deg, #ff6034, #ff8a34); min-height: 100vh; }
+    .login-page { padding: 120rpx 60rpx; }
+    .logo { text-align: center; margin-bottom: 80rpx; }
+    .logo-icon { width: 160rpx; height: 160rpx; background: #fff; border-radius: 40rpx; margin: 0 auto 20rpx; display: flex; align-items: center; justify-content: center; font-size: 80rpx; }
+    .logo-text { font-size: 48rpx; font-weight: bold; color: #fff; }
+    .login-form { background: #fff; border-radius: 32rpx; padding: 60rpx 40rpx; }
+    .form-tabs { display: flex; margin-bottom: 40rpx; border-bottom: 1rpx solid #eee; }
+    .form-tab { flex: 1; text-align: center; padding: 20rpx 0; font-size: 32rpx; color: #999; position: relative; }
+    .form-tab.active { color: #ff6034; font-weight: bold; }
+    .form-tab.active::after { content: ''; position: absolute; bottom: -1rpx; left: 50%; transform: translateX(-50%); width: 60rpx; height: 4rpx; background: #ff6034; border-radius: 2rpx; }
+    .input-group { margin-bottom: 30rpx; }
+    .input-label { font-size: 26rpx; color: #333; margin-bottom: 16rpx; display: block; }
+    .input-row { display: flex; align-items: center; background: #f5f5f5; border-radius: 16rpx; padding: 0 24rpx; height: 88rpx; }
+    .input-icon { font-size: 32rpx; margin-right: 16rpx; }
+    .input-field { flex: 1; border: none; background: none; font-size: 28rpx; color: #333; }
+    .input-code { width: 200rpx; height: 64rpx; background: #ff6034; color: #fff; border: none; border-radius: 8rpx; font-size: 24rpx; }
+    .input-code:disabled { background: #ccc; }
+    .btn-login { width: 100%; height: 88rpx; background: linear-gradient(135deg, #ff6034, #ff8a34); color: #fff; border: none; border-radius: 44rpx; font-size: 32rpx; font-weight: bold; margin-top: 40rpx; }
+    .btn-login:disabled { background: #ccc; }
+    .btn-login:active { transform: scale(0.98); }
+    .btn-wechat { width: 100%; height: 88rpx; background: #07c160; color: #fff; border: none; border-radius: 44rpx; font-size: 32rpx; margin-top: 24rpx; display: flex; align-items: center; justify-content: center; }
+    .btn-wechat-icon { font-size: 40rpx; margin-right: 12rpx; }
+    .protocol-row { display: flex; align-items: center; justify-content: center; margin-top: 40rpx; font-size: 22rpx; color: #fff; }
+    .protocol-link { color: #fff; text-decoration: underline; }
+    .countdown { font-size: 24rpx; color: #999; }
+    .login-success { text-align: center; padding: 200rpx 0; }
+    .success-icon { font-size: 160rpx; color: #07c160; margin-bottom: 40rpx; }
+    .success-text { font-size: 36rpx; color: #fff; font-weight: bold; margin-bottom: 20rpx; }
+    .success-sub { font-size: 26rpx; color: rgba(255,255,255,0.8); }
+    .back-home { display: inline-block; margin-top: 60rpx; padding: 20rpx 60rpx; background: #fff; color: #ff6034; border-radius: 40rpx; font-size: 28rpx; }
+  </style>
+</head>
+<body>
+  <div class="login-page" id="loginPage">
+    <div class="logo">
+      <div class="logo-icon">🛒</div>
+      <div class="logo-text">通用商城</div>
+    </div>
+    
+    <div class="login-form">
+      <div class="form-tabs">
+        <div class="form-tab active" onclick="switchTab('login', this)">登录</div>
+        <div class="form-tab" onclick="switchTab('register', this)">注册</div>
+      </div>
+      
+      <!-- 登录表单 -->
+      <div id="loginForm">
+        <div class="input-group">
+          <label class="input-label">手机号</label>
+          <div class="input-row">
+            <span class="input-icon">📱</span>
+            <input type="tel" class="input-field" id="loginPhone" placeholder="请输入手机号" maxlength="11" oninput="validateLoginPhone()">
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">验证码</label>
+          <div class="input-row">
+            <span class="input-icon">🔐</span>
+            <input type="tel" class="input-field" id="loginCode" placeholder="请输入验证码" maxlength="6" style="width: 280rpx;">
+            <button class="input-code" id="loginCodeBtn" onclick="sendLoginCode()">获取验证码</button>
+          </div>
+        </div>
+        
+        <button class="btn-login" id="loginBtn" onclick="doLogin()" disabled>登录</button>
+        
+        <button class="btn-wechat" onclick="wechatLogin()">
+          <span class="btn-wechat-icon">💬</span>
+          微信一键登录
+        </button>
+      </div>
+      
+      <!-- 注册表单 -->
+      <div id="registerForm" style="display:none">
+        <div class="input-group">
+          <label class="input-label">手机号</label>
+          <div class="input-row">
+            <span class="input-icon">📱</span>
+            <input type="tel" class="input-field" id="regPhone" placeholder="请输入手机号" maxlength="11" oninput="validateRegPhone()">
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">验证码</label>
+          <div class="input-row">
+            <span class="input-icon">🔐</span>
+            <input type="tel" class="input-field" id="regCode" placeholder="请输入验证码" maxlength="6" style="width: 280rpx;">
+            <button class="input-code" id="regCodeBtn" onclick="sendRegCode()">获取验证码</button>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">设置密码</label>
+          <div class="input-row">
+            <span class="input-icon">🔒</span>
+            <input type="password" class="input-field" id="regPwd" placeholder="请设置6-20位密码" minlength="6" maxlength="20">
+          </div>
+        </div>
+        
+        <button class="btn-login" id="regBtn" onclick="doRegister()" disabled>注册</button>
+      </div>
+    </div>
+    
+    <div class="protocol-row">
+      <input type="checkbox" id="agreeProtocol" style="margin-right: 10rpx;">
+      <span>我已阅读并同意</span>
+      <a href="protocol.html" class="protocol-link">《用户协议》</a>
+      <span>和</span>
+      <a href="protocol.html" class="protocol-link">《隐私政策》</a>
+    </div>
+  </div>
+  
+  <!-- 登录成功页 -->
+  <div id="loginSuccess" style="display:none" class="login-page">
+    <div class="login-success">
+      <div class="success-icon">✓</div>
+      <div class="success-text">登录成功</div>
+      <div class="success-sub">正在跳转...</div>
+      <a href="user.html" class="back-home">返回首页</a>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+  <script>
+    let loginCountdown = 0;
+    let regCountdown = 0;
+    
+    function switchTab(type, el) {
+      document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      if (type === 'login') {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+      } else {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+      }
+    }
+    
+    function validateLoginPhone() {
+      const phone = document.getElementById('loginPhone').value;
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = !/^1[3-9]\d{9}$/.test(phone);
+    }
+    
+    function validateRegPhone() {
+      const phone = document.getElementById('regPhone').value;
+      const btn = document.getElementById('regBtn');
+      btn.disabled = !/^1[3-9]\d{9}$/.test(phone);
+    }
+    
+    function sendLoginCode() {
+      if (loginCountdown > 0) return;
+      const phone = document.getElementById('loginPhone').value;
+      if (!/^1[3-9]\d{9}$/.test(phone)) {
+        alert('请输入正确的手机号');
+        return;
+      }
+      alert('验证码已发送');
+      loginCountdown = 60;
+      const btn = document.getElementById('loginCodeBtn');
+      btn.disabled = true;
+      const timer = setInterval(() => {
+        loginCountdown--;
+        btn.textContent = loginCountdown > 0 ? loginCountdown + 's' : '获取验证码';
+        if (loginCountdown <= 0) {
+          clearInterval(timer);
+          btn.disabled = false;
+        }
+      }, 1000);
+    }
+    
+    function sendRegCode() {
+      if (regCountdown > 0) return;
+      const phone = document.getElementById('regPhone').value;
+      if (!/^1[3-9]\d{9}$/.test(phone)) {
+        alert('请输入正确的手机号');
+        return;
+      }
+      alert('验证码已发送');
+      regCountdown = 60;
+      const btn = document.getElementById('regCodeBtn');
+      btn.disabled = true;
+      const timer = setInterval(() => {
+        regCountdown--;
+        btn.textContent = regCountdown > 0 ? regCountdown + 's' : '获取验证码';
+        if (regCountdown <= 0) {
+          clearInterval(timer);
+          btn.disabled = false;
+        }
+      }, 1000);
+    }
+    
+    function doLogin() {
+      const phone = document.getElementById('loginPhone').value;
+      const code = document.getElementById('loginCode').value;
+      if (!code) {
+        alert('请输入验证码');
+        return;
+      }
+      if (code.length !== 6) {
+        alert('验证码错误');
+        return;
+      }
+      // 模拟登录成功
+      localStorage.setItem('user', JSON.stringify({phone: phone, nickname: '用户' + phone.slice(-4)}));
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('loginSuccess').style.display = 'block';
+      setTimeout(() => {
+        location.href = 'user.html';
+      }, 2000);
+    }
+    
+    function doRegister() {
+      const phone = document.getElementById('regPhone').value;
+      const code = document.getElementById('regCode').value;
+      const pwd = document.getElementById('regPwd').value;
+      if (!code || code.length !== 6) {
+        alert('请输入6位验证码');
+        return;
+      }
+      if (pwd.length < 6) {
+        alert('密码至少6位');
+        return;
+      }
+      // 模拟注册成功
+      localStorage.setItem('user', JSON.stringify({phone: phone, nickname: '用户' + phone.slice(-4)}));
+      alert('注册成功');
+      location.href = 'user.html';
+    }
+    
+    function wechatLogin() {
+      alert('微信登录功能开发中...');
+    }
+  </script>
+</body>
+</html>

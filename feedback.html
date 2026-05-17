@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 意见反馈">
+  <title>意见反馈</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .feedback-page{padding-top:100px;padding-bottom:140px}
+    .feedback-form{background:#fff;padding:30px}
+    .form-item{margin-bottom:30px}
+    .form-label{font-size:28px;color:#333;font-weight:bold;margin-bottom:16px}
+    .form-textarea{width:100%;height:240px;background:#f5f5f5;border:none;border-radius:16px;padding:24px;font-size:28px;color:#333;resize:none;box-sizing:border-box}
+    .form-input{width:100%;height:88px;background:#f5f5f5;border:none;border-radius:16px;padding:0 24px;font-size:28px;color:#333;box-sizing:border-box}
+    .form-tip{font-size:22px;color:#999;margin-top:12px}
+    .submit-btn{position:fixed;bottom:0;left:0;right:0;max-width:750px;padding:20px 30px;padding-bottom:calc(20px + env(safe-area-inset-bottom));background:#fff;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
+    .submit-btn-inner{width:100%;height:88px;background:#ff6034;color:#fff;font-size:32px;border-radius:44px;display:flex;align-items:center;justify-content:center;border:none}
+  </style>
+</head>
+<body>
+  <div class="page-header"><a href="user.html" class="back-btn">←</a><div class="page-title">意见反馈</div><div style="width:60px"></div></div>
+  <div class="feedback-page">
+    <div class="feedback-form">
+      <div class="form-item">
+        <div class="form-label">反馈类型</div>
+        <select class="form-input" style="appearance:none;padding-right:60px;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23999" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 24px center #f5f5f5">
+          <option>功能建议</option>
+          <option>Bug反馈</option>
+          <option>体验问题</option>
+          <option>其他</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <div class="form-label">反馈内容</div>
+        <textarea class="form-textarea" placeholder="请详细描述您的问题或建议..."></textarea>
+        <div class="form-tip">请尽量详细描述问题，以便我们更好地解决</div>
+      </div>
+      <div class="form-item">
+        <div class="form-label">联系方式</div>
+        <input type="text" class="form-input" placeholder="请输入手机号或邮箱（选填）">
+        <div class="form-tip">方便我们联系您解决问题</div>
+      </div>
+    </div>
+  </div>
+  <div class="submit-btn"><button class="submit-btn-inner" onclick="submitFeedback()">提交反馈</button></div>
+  <script src="app.js"></script>
+  <script>
+    function submitFeedback(){const textarea=document.querySelector('.form-textarea');if(!textarea.value.trim()){alert('请填写反馈内容');return}if(confirm('确定提交反馈吗？')){alert('反馈提交成功，感谢您的建议！');setTimeout(()=>{location.href='user.html'},1500)}}
+  </script>
+</body>
+</html>
