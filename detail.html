@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 商品详情">
+  <title>商品详情</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .detail-page{padding-top:100px;padding-bottom:140px}
+    .detail-swiper{width:100%;height:500px;display:flex;align-items:center;justify-content:center;font-size:150px;background:#fff}
+    .detail-info{background:#fff;padding:30px;margin-bottom:20px}
+    .detail-price-row{display:flex;align-items:baseline;margin-bottom:20px}
+    .detail-price{font-size:48px;color:#ff6034;font-weight:bold}
+    .detail-original{font-size:28px;color:#999;text-decoration:line-through;margin-left:20px}
+    .detail-name{font-size:32px;color:#333;line-height:1.5;margin-bottom:16px}
+    .detail-desc{font-size:26px;color:#999;line-height:1.5}
+    .detail-tags{display:flex;flex-wrap:wrap;margin-top:20px}
+    .detail-tag{font-size:22px;color:#ff6034;padding:8px 16px;background:#fff0ed;border-radius:6px;margin-right:16px}
+    .sku-section{background:#fff;padding:30px;margin-bottom:20px;cursor:pointer}
+    .sku-header{display:flex;justify-content:space-between;align-items:center}
+    .sku-label{font-size:28px;color:#333}
+    .sku-value{font-size:28px;color:#666}
+    .sku-arrow{font-size:28px;color:#ccc}
+    .detail-tabs{background:#fff}
+    .detail-tab-header{display:flex;border-bottom:1px solid #eee}
+    .detail-tab{flex:1;display:flex;align-items:center;justify-content:center;height:90px;font-size:28px;color:#666}
+    .detail-tab.active{color:#ff6034;font-weight:bold;border-bottom:4px solid #ff6034}
+    .detail-tab-content{padding:30px;min-height:300px}
+    .detail-bottom{position:fixed;bottom:0;left:0;right:0;max-width:750px;height:120px;background:#fff;display:flex;align-items:center;padding:0 20px;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:200}
+    .detail-action-item{display:flex;flex-direction:column;align-items:center;margin-right:30px;font-size:20px;color:#666}
+    .detail-action-icon{font-size:40px;margin-bottom:8px}
+    .detail-btn-group{flex:1;display:flex}
+    .detail-add-cart{flex:1;height:80px;background:#fff;color:#ff6034;font-size:28px;border:2px solid #ff6034;border-radius:40px 0 0 40px;display:flex;align-items:center;justify-content:center}
+    .detail-buy{flex:1;height:80px;background:#ff6034;color:#fff;font-size:28px;border-radius:0 40px 40px 0;display:flex;align-items:center;justify-content:center}
+    .sku-popup{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:300;display:none}
+    .sku-popup.show{display:block}
+    .sku-content{position:absolute;bottom:0;left:0;right:0;max-width:750px;background:#fff;border-radius:24px 24px 0 0;max-height:80vh;overflow-y:auto}
+    .sku-header-section{display:flex;padding:30px;border-bottom:1px solid #eee;position:relative}
+    .sku-goods-img{width:180px;height:180px;background:#f5f5f5;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:60px}
+    .sku-goods-info{flex:1;margin-left:20px}
+    .sku-goods-price{font-size:36px;color:#ff6034;font-weight:bold;margin-bottom:8px}
+    .sku-goods-stock{font-size:24px;color:#999;margin-bottom:8px}
+    .sku-goods-selected{font-size:24px;color:#333}
+    .sku-close{position:absolute;top:20px;right:20px;font-size:48px;color:#ccc}
+    .sku-list{padding:30px}
+    .sku-group{margin-bottom:30px}
+    .sku-group-name{font-size:28px;color:#333;font-weight:bold;margin-bottom:16px}
+    .sku-options{display:flex;flex-wrap:wrap}
+    .sku-option{padding:16px 30px;background:#f5f5f5;border-radius:8px;font-size:26px;color:#333;margin-right:16px;margin-bottom:16px;cursor:pointer}
+    .sku-option.active{background:#ff6034;color:#fff}
+    .sku-num{display:flex;justify-content:space-between;align-items:center;padding:30px;border-top:1px solid #eee}
+    .sku-num-label{font-size:28px;color:#333;font-weight:bold}
+    .sku-num-control{display:flex;align-items:center}
+    .sku-num-btn{width:56px;height:56px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer}
+    .sku-num-value{width:80px;text-align:center;font-size:28px}
+    .sku-confirm{padding:30px;background:#ff6034;color:#fff;font-size:32px;text-align:center;border-radius:0 0 24px 24px;cursor:pointer}
+    .page-header{position:fixed;top:0;left:0;right:0;max-width:750px;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 30px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+    .back-btn{font-size:40px;color:#333}
+    .page-title{font-size:32px;font-weight:bold;color:#333}
+    .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:20px 40px;border-radius:12px;font-size:28px;z-index:9999}
+  </style>
+</head>
+<body>
+  <div class="page-header"><a href="index.html" class="back-btn">←</a><div class="page-title">商品详情</div><a href="index.html" class="back-btn">⋯</a></div>
+  <div class="detail-page">
+    <div class="detail-swiper" id="detailSwiper">🍎</div>
+    <div class="detail-info">
+      <div class="detail-price-row"><div class="detail-price" id="detailPrice">¥29.9</div><div class="detail-original" id="detailOriginal">¥49.9</div></div>
+      <div class="detail-name" id="detailName">新鲜红富士苹果 5斤装</div>
+      <div class="detail-desc" id="detailDesc">产地直发，新鲜采摘，脆甜多汁，营养健康</div>
+      <div class="detail-tags"><div class="detail-tag">有货</div><div class="detail-tag">正品保证</div><div class="detail-tag">极速发货</div></div>
+    </div>
+    <div class="sku-section" onclick="showSkuPopup()"><div class="sku-header"><div class="sku-label">选择</div><div class="sku-value" id="skuSelected">请选择规格</div><div class="sku-arrow">></div></div></div>
+    <div class="detail-tabs">
+      <div class="detail-tab-header"><div class="detail-tab active" onclick="switchDetailTab(this,'detail')">商品详情</div><div class="detail-tab" onclick="switchDetailTab(this,'comment')">用户评价</div></div>
+      <div class="detail-tab-content" id="detailTabContent"><div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">📦</div><div>商品详情图片展示区</div></div></div>
+    </div>
+  </div>
+  <div class="detail-bottom">
+    <div class="detail-action-item"><div class="detail-action-icon">❤️</div><div>收藏</div></div>
+    <a href="cart.html" class="detail-action-item"><div class="detail-action-icon">🛒</div><div>购物车</div></a>
+    <div class="detail-btn-group">
+      <div class="detail-add-cart" onclick="addToCart()">加入购物车</div>
+      <a href="confirm.html" class="detail-buy">立即购买</a>
+    </div>
+  </div>
+  <div class="sku-popup" id="skuPopup">
+    <div class="sku-content">
+      <div class="sku-header-section">
+        <div class="sku-goods-img" id="skuImg">🍎</div>
+        <div class="sku-goods-info"><div class="sku-goods-price" id="skuPrice">¥29.9</div><div class="sku-goods-stock">库存: 100件</div><div class="sku-goods-selected" id="skuSelectedText">请选择规格</div></div>
+        <div class="sku-close" onclick="closeSkuPopup()">×</div>
+      </div>
+      <div class="sku-list">
+        <div class="sku-group"><div class="sku-group-name">规格</div>
+          <div class="sku-options">
+            <div class="sku-option" onclick="selectSku(this,'5斤装')">5斤装</div>
+            <div class="sku-option" onclick="selectSku(this,'10斤装')">10斤装</div>
+          </div>
+        </div>
+      </div>
+      <div class="sku-num"><div class="sku-num-label">购买数量</div><div class="sku-num-control"><div class="sku-num-btn" onclick="skuChangeNum(-1)">-</div><div class="sku-num-value" id="skuNum">1</div><div class="sku-num-btn" onclick="skuChangeNum(1)">+</div></div></div>
+      <div class="sku-confirm" onclick="confirmSku()">确定</div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    let currentSku='',skuNum=1;
+    const params=new URLSearchParams(location.search);
+    const id=params.get('id')||1;
+    const goodsList=[{id:1,name:'新鲜红富士苹果 5斤装',price:29.9,originalPrice:49.9,desc:'产地直发，新鲜采摘，脆甜多汁，营养健康',icon:'🍎'},{id:2,name:'有机西兰花 500g',price:12.8,originalPrice:18.8,desc:'有机种植，无农药残留，新鲜直达',icon:'🥦'},{id:3,name:'iPhone 15 Pro Max 256G',price:8999,originalPrice:9999,desc:'全新A17 Pro芯片，钛金属设计，强劲性能',icon:'📱'},{id:4,name:'女士纯棉T恤 简约百搭',price:59,originalPrice:129,desc:'100%纯棉面料，柔软舒适，透气吸汗',icon:'👕'},{id:5,name:'玻尿酸保湿面膜 10片装',price:39.9,originalPrice:89.9,desc:'深层补水保湿，焕亮肌肤，适合各种肤质',icon:'💄'},{id:6,name:'北欧简约台灯',price:89,originalPrice:169,desc:'现代简约设计，光线柔和护眼，装饰首选',icon:'💡'}];
+    const goods=goodsList.find(g=>g.id==id)||goodsList[0];
+    document.getElementById('detailSwiper').textContent=goods.icon;
+    document.getElementById('detailPrice').textContent='¥'+goods.price;
+    document.getElementById('detailOriginal').textContent='¥'+goods.originalPrice;
+    document.getElementById('detailName').textContent=goods.name;
+    document.getElementById('detailDesc').textContent=goods.desc;
+    document.getElementById('skuImg').textContent=goods.icon;
+    document.getElementById('skuPrice').textContent='¥'+goods.price;
+    function showSkuPopup(){document.getElementById('skuPopup').classList.add('show')}
+    function closeSkuPopup(){document.getElementById('skuPopup').classList.remove('show')}
+    function selectSku(el,spec){document.querySelectorAll('.sku-option').forEach(o=>o.classList.remove('active'));el.classList.add('active');currentSku=spec;document.getElementById('skuSelected').textContent=spec;document.getElementById('skuSelectedText').textContent='已选择: '+spec}
+    function skuChangeNum(d){skuNum=Math.max(1,skuNum+d);document.getElementById('skuNum').textContent=skuNum}
+    function confirmSku(){if(!currentSku){showToast('请选择规格');return}closeSkuPopup();showToast('已选择: '+currentSku+' x'+skuNum)}
+    function addToCart(){if(!currentSku){showSkuPopup();return}showToast('加入购物车成功')}
+    function switchDetailTab(el,tab){document.querySelectorAll('.detail-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');const c=document.getElementById('detailTabContent');if(tab==='detail'){c.innerHTML='<div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">📦</div><div>商品详情图片展示区</div></div>'}else{c.innerHTML='<div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">⭐</div><div>暂无评价</div></div>'}}
+  </script>
+</body>
+</html>

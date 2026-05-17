@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 确认订单">
+  <title>确认订单</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .confirm-page{padding-top:100px;padding-bottom:140px}
+    .address-section{display:flex;align-items:center;background:#fff;margin:20px;padding:30px;border-radius:16px}
+    .address-default{flex:1}
+    .address-info{display:flex;align-items:center;margin-bottom:12px}
+    .address-name{font-size:32px;font-weight:bold;color:#333;margin-right:20px}
+    .address-phone{font-size:28px;color:#666}
+    .address-detail{font-size:26px;color:#999;line-height:1.5}
+    .address-empty{flex:1;font-size:28px;color:#999}
+    .address-arrow{font-size:28px;color:#ccc;margin-left:20px}
+    .goods-section{background:#fff;margin:0 20px 20px;border-radius:16px;overflow:hidden}
+    .goods-header{padding:30px;font-size:28px;font-weight:bold;color:#333;border-bottom:1px solid #f5f5f5}
+    .goods-item{display:flex;padding:30px;border-bottom:1px solid #f5f5f5}
+    .goods-item:last-child{border-bottom:none}
+    .item-img{width:160px;height:160px;background:#f5f5f5;border-radius:12px;margin-right:20px;display:flex;align-items:center;justify-content:center;font-size:50px;flex-shrink:0}
+    .item-detail{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .item-title{font-size:28px;color:#333;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .item-specs{font-size:24px;color:#999;margin-top:8px}
+    .item-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+    .item-price{font-size:28px;color:#ff6034;font-weight:bold}
+    .item-num{font-size:26px;color:#999}
+    .order-section{background:#fff;margin:0 20px 20px;border-radius:16px;overflow:hidden}
+    .order-item{display:flex;align-items:center;justify-content:space-between;padding:30px;border-bottom:1px solid #f5f5f5}
+    .order-item:last-child{border-bottom:none}
+    .order-label{font-size:28px;color:#333}
+    .order-value{display:flex;align-items:center}
+    .order-text{font-size:28px;color:#666}
+    .order-arrow{font-size:28px;color:#ccc;margin-left:16px}
+    .coupon-text{font-size:28px;color:#999}
+    .coupon-text.active{color:#ff6034}
+    .price-section{background:#fff;margin:0 20px 20px;border-radius:16px;padding:30px}
+    .price-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .price-item:last-child{margin-bottom:0}
+    .price-label{font-size:28px;color:#666}
+    .price-value{font-size:28px;color:#333}
+    .price-value.discount{color:#ff6034}
+    .price-item.total{margin-top:20px;padding-top:20px;border-top:1px solid #f5f5f5}
+    .price-item.total .price-label{font-weight:bold;color:#333}
+    .price-item.total .price-value{font-size:36px;font-weight:bold;color:#ff6034}
+    .remark-input{flex:1;font-size:28px;color:#333;text-align:right;border:none;background:none;outline:none}
+    .page-bottom{position:fixed;bottom:0;left:0;right:0;max-width:750px;height:120px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 30px;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
+    .total-info{display:flex;align-items:baseline}
+    .total-label{font-size:28px;color:#666}
+    .total-price{font-size:40px;font-weight:bold;color:#ff6034}
+    .submit-btn{padding:0 60px;height:80px;background:#ff6034;color:#fff;font-size:32px;border-radius:40px;display:flex;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <div class="page-header"><a href="cart.html" class="back-btn">←</a><div class="page-title">确认订单</div><div style="width:60px"></div></div>
+  <div class="confirm-page">
+    <a href="address.html" class="address-section">
+      <div class="address-default">
+        <div class="address-info"><span class="address-name">张三</span><span class="address-phone">138****8888</span></div>
+        <div class="address-detail">广东省 深圳市 南山区 科技园路1号A栋1001室</div>
+      </div>
+      <span class="address-arrow">></span>
+    </a>
+    <div class="goods-section">
+      <div class="goods-header">商品清单</div>
+      <div class="goods-item">
+        <div class="item-img">🍎</div>
+        <div class="item-detail">
+          <div class="item-title">新鲜红富士苹果 5斤装</div>
+          <div class="item-specs">5斤装</div>
+          <div class="item-row"><div class="item-price">¥29.9</div><div class="item-num">x1</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="order-section">
+      <a href="coupon.html" class="order-item"><span class="order-label">优惠券</span><div class="order-value"><span class="coupon-text active">-¥10</span><span class="order-arrow">></span></div></a>
+      <div class="order-item"><span class="order-label">配送方式</span><div class="order-value"><span class="order-text">快递配送</span></div></div>
+      <div class="order-item"><span class="order-label">订单备注</span><div class="order-value"><input type="text" class="remark-input" placeholder="选填，可备注特殊要求"></div></div>
+    </div>
+    <div class="price-section">
+      <div class="price-item"><span class="price-label">商品总价</span><span class="price-value">¥29.9</span></div>
+      <div class="price-item"><span class="price-label">运费</span><span class="price-value">免运费</span></div>
+      <div class="price-item"><span class="price-label">优惠券</span><span class="price-value discount">-¥10</span></div>
+      <div class="price-item total"><span class="price-label">合计</span><span class="price-value">¥19.9</span></div>
+    </div>
+  </div>
+  <div class="page-bottom">
+    <div class="total-info"><span class="total-label">实付款:</span><span class="total-price">¥19.9</span></div>
+    <div class="submit-btn" onclick="submitOrder()">提交订单</div>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    function submitOrder(){showToast('订单提交成功');setTimeout(()=>{location.href='order.html'},1500)}
+  </script>
+</body>
+</html>

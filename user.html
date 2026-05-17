@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 我的">
+  <title>通用商城 - 我的</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-user">
+    <div class="user-header">
+      <div class="user-info">
+        <div class="user-avatar">👤</div>
+        <div class="user-detail"><div class="user-nickname">用户123</div><div class="user-phone">138****8888</div></div>
+      </div>
+      <div class="user-stats">
+        <div class="stat-item"><div class="stat-value">1000</div><div class="stat-label">积分</div></div>
+        <div class="stat-item"><div class="stat-value">3</div><div class="stat-label">优惠券</div></div>
+        <div class="stat-item"><div class="stat-value">Lv.2</div><div class="stat-label">等级</div></div>
+      </div>
+    </div>
+    <div class="section" style="margin:20px">
+      <div class="section-header" style="border:none;padding:30px"><div class="section-title">我的订单</div><a href="order.html" class="section-more">全部订单 ></a></div>
+      <div style="display:flex;padding:0 30px 30px">
+        <a href="order.html?status=0" style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">⏰</div><div style="font-size:24px;color:#666">待付款</div></a>
+        <a href="order.html?status=1" style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">📦</div><div style="font-size:24px;color:#666">待发货</div></a>
+        <a href="order.html?status=2" style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">🚚</div><div style="font-size:24px;color:#666">待收货</div></a>
+        <a href="order.html?status=3" style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">⭐</div><div style="font-size:24px;color:#666">待评价</div></a>
+      </div>
+    </div>
+    <div class="menu-section">
+      <a href="address.html" class="menu-item"><div class="menu-icon">📍</div><div class="menu-name">收货地址</div><div class="menu-arrow">></div></a>
+      <a href="coupon.html" class="menu-item"><div class="menu-icon">🎫</div><div class="menu-name">优惠券</div><div class="menu-arrow">></div></a>
+      <a href="collect.html" class="menu-item"><div class="menu-icon">❤️</div><div class="menu-name">我的收藏</div><div class="menu-arrow">></div></a>
+      <a href="history.html" class="menu-item"><div class="menu-icon">🕐</div><div class="menu-name">浏览历史</div><div class="menu-arrow">></div></a>
+    </div>
+    <div class="menu-section">
+      <a href="feedback.html" class="menu-item"><div class="menu-icon">💬</div><div class="menu-name">意见反馈</div><div class="menu-arrow">></div></a>
+      <a href="service.html" class="menu-item"><div class="menu-icon">📞</div><div class="menu-name">联系客服</div><div class="menu-arrow">></div></a>
+      <a href="settings.html" class="menu-item"><div class="menu-icon">⚙️</div><div class="menu-name">设置</div><div class="menu-arrow">></div></a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a href="index.html" class="tab-item"><div class="tab-icon">🏠</div><div>首页</div></a>
+    <a href="category.html" class="tab-item"><div class="tab-icon">📋</div><div>分类</div></a>
+    <a href="cart.html" class="tab-item"><div class="tab-icon">🛒</div><div>购物车</div></a>
+    <a href="user.html" class="tab-item active"><div class="tab-icon">👤</div><div>我的</div></a>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

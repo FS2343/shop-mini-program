@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 分类">
+  <title>通用商城 - 分类</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-category">
+    <div class="header" style="background:#fff"><a href="search.html" class="search-bar">🔍 搜索商品</a></div>
+    <div class="category-page" style="padding-top:112px">
+      <div class="category-left">
+        <div class="category-tab active" onclick="selectCategory(this,'食品生鲜')">食品生鲜</div>
+        <div class="category-tab" onclick="selectCategory(this,'数码电子')">数码电子</div>
+        <div class="category-tab" onclick="selectCategory(this,'服装鞋包')">服装鞋包</div>
+        <div class="category-tab" onclick="selectCategory(this,'美妆护肤')">美妆护肤</div>
+        <div class="category-tab" onclick="selectCategory(this,'家居生活')">家居生活</div>
+        <div class="category-tab" onclick="selectCategory(this,'图书文具')">图书文具</div>
+      </div>
+      <div class="category-right">
+        <div class="sub-title">食品生鲜</div>
+        <div class="sub-list">
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🍎</div><div class="sub-name">水果</div></div>
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥬</div><div class="sub-name">蔬菜</div></div>
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥩</div><div class="sub-name">肉类</div></div>
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🦐</div><div class="sub-name">海鲜</div></div>
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🍪</div><div class="sub-name">零食</div></div>
+          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥤</div><div class="sub-name">饮料</div></div>
+        </div>
+        <div class="section-title" style="padding:20px 0">热门商品</div>
+        <div class="goods-grid" style="background:#fff;padding:20px;border-radius:16px">
+          <a href="detail.html?id=1" class="goods-item"><div class="goods-image" style="background:#e8f5e9;height:200px">🍎</div><div class="goods-info"><div class="goods-name">新鲜红富士苹果</div><div class="goods-bottom"><div class="goods-price">¥29.9</div></div></div></a>
+          <a href="detail.html?id=2" class="goods-item"><div class="goods-image" style="background:#e8f5e9;height:200px">🥦</div><div class="goods-info"><div class="goods-name">有机西兰花</div><div class="goods-bottom"><div class="goods-price">¥12.8</div></div></div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a href="index.html" class="tab-item"><div class="tab-icon">🏠</div><div>首页</div></a>
+    <a href="category.html" class="tab-item active"><div class="tab-icon">📋</div><div>分类</div></a>
+    <a href="cart.html" class="tab-item"><div class="tab-icon">🛒</div><div>购物车</div></a>
+    <a href="user.html" class="tab-item"><div class="tab-icon">👤</div><div>我的</div></a>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

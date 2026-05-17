@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 购物车">
+  <title>通用商城 - 购物车</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-cart">
+    <div class="cart-header"><div class="cart-title">购物车</div><div class="cart-edit" onclick="toggleEdit()">编辑</div></div>
+    <div class="cart-content">
+      <div class="cart-item" onclick="toggleCartCheck(this)">
+        <div class="item-check checked">✓</div>
+        <div class="item-image" style="background:#e8f5e9">🍎</div>
+        <div class="item-info">
+          <div class="item-name">新鲜红富士苹果 5斤装</div>
+          <div class="item-specs">5斤装</div>
+          <div class="item-bottom">
+            <div class="item-price">¥29.9</div>
+            <div class="item-num">
+              <div class="num-btn" onclick="event.stopPropagation();changeNum(this,-1)">-</div>
+              <div class="num-value">1</div>
+              <div class="num-btn" onclick="event.stopPropagation();changeNum(this,1)">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cart-item" onclick="toggleCartCheck(this)">
+        <div class="item-check">✓</div>
+        <div class="item-image" style="background:#e3f2fd">📱</div>
+        <div class="item-info">
+          <div class="item-name">iPhone 15 Pro Max 256G</div>
+          <div class="item-specs">原色钛金属 256G</div>
+          <div class="item-bottom">
+            <div class="item-price">¥8999</div>
+            <div class="item-num">
+              <div class="num-btn" onclick="event.stopPropagation();changeNum(this,-1)">-</div>
+              <div class="num-value">1</div>
+              <div class="num-btn" onclick="event.stopPropagation();changeNum(this,1)">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cart-bottom">
+      <div class="total-info"><div class="total-label">合计:</div><div class="total-price">¥9028.9</div></div>
+      <a href="confirm.html" class="submit-btn">结算(2)</a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a href="index.html" class="tab-item"><div class="tab-icon">🏠</div><div>首页</div></a>
+    <a href="category.html" class="tab-item"><div class="tab-icon">📋</div><div>分类</div></a>
+    <a href="cart.html" class="tab-item active"><div class="tab-icon">🛒</div><div>购物车</div></a>
+    <a href="user.html" class="tab-item"><div class="tab-icon">👤</div><div>我的</div></a>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

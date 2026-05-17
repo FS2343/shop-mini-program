@@ -3,363 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="通用商城小程序 - 便捷的线上购物体验">
+  <meta name="description" content="通用商城 - 首页">
   <meta name="theme-color" content="#ff6034">
-  <title>通用商城</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; max-width: 750px; margin: 0 auto; overflow-x: hidden; }
-    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
-    .page-animate { animation: fadeIn 0.3s ease; }
-    .tabbar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 750px; height: 100px; background: #fff; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; padding-bottom: env(safe-area-inset-bottom); z-index: 100; }
-    .tab-item { display: flex; flex-direction: column; align-items: center; color: #999; font-size: 22px; transition: all 0.3s; }
-    .tab-item.active { color: #ff6034; transform: scale(1.1); }
-    .tab-icon { width: 50px; height: 50px; margin-bottom: 8px; font-size: 40px; }
-    .page { display: none; padding-bottom: 120px; }
-    .page.active { display: block; animation: fadeIn 0.3s ease; }
-    .header { position: fixed; top: 0; left: 0; right: 0; max-width: 750px; z-index: 100; padding: 20px 30px; background: linear-gradient(135deg, #ff6034, #ff8a34); }
-    .search-bar { display: flex; align-items: center; height: 72px; padding: 0 30px; background: #fff; border-radius: 36px; color: #999; font-size: 28px; }
-    .content { padding-top: 112px; }
-    .banner { width: 100%; height: 320px; background: linear-gradient(135deg, #ff6034, #ff8a34); display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; position: relative; overflow: hidden; }
-    .banner::before { content: ''; position: absolute; width: 200%; height: 200%; background: rgba(255,255,255,0.1); border-radius: 50%; top: -50%; left: -50%; animation: wave 8s linear infinite; }
-    @keyframes wave { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
-    .banner-title { font-size: 36px; font-weight: bold; margin-bottom: 16px; position: relative; z-index: 1; }
-    .banner-sub { font-size: 24px; opacity: 0.8; position: relative; z-index: 1; }
-    .category-nav { display: flex; flex-wrap: wrap; padding: 30px 20px; background: #fff; margin-bottom: 20px; }
-    .category-item { width: 20%; display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; cursor: pointer; transition: transform 0.2s; }
-    .category-item:active { transform: scale(0.9); }
-    .category-icon { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; font-size: 50px; transition: transform 0.2s; }
-    .category-item:active .category-icon { transform: rotate(10deg); }
-    .category-name { font-size: 24px; color: #333; }
-    .section { background: #fff; margin-bottom: 20px; padding: 30px; }
-    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-    .section-title { font-size: 32px; font-weight: bold; color: #333; }
-    .section-more { font-size: 24px; color: #999; }
-    .goods-grid { display: flex; flex-wrap: wrap; justify-content: space-between; }
-    .goods-item { width: 48%; margin-bottom: 20px; background: #fafafa; border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-    .goods-item:active { transform: scale(0.98); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .goods-image { width: 100%; height: 340px; display: flex; align-items: center; justify-content: center; font-size: 80px; }
-    .goods-info { padding: 20px; }
-    .goods-name { font-size: 28px; color: #333; line-height: 1.4; height: 78px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .goods-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
-    .goods-price { font-size: 32px; color: #ff6034; font-weight: bold; }
-    .goods-sales { font-size: 22px; color: #999; }
-    .detail-page { position: fixed; top: 0; left: 0; right: 0; bottom: 0; max-width: 750px; background: #f5f5f5; z-index: 200; transform: translateX(100%); transition: transform 0.3s ease; }
-    .detail-page.show { transform: translateX(0); }
-    .detail-header { position: fixed; top: 0; left: 0; right: 0; max-width: 750px; z-index: 201; display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: #fff; }
-    .back-btn { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-    .detail-title { font-size: 32px; font-weight: bold; color: #333; }
-    .detail-content { padding: 100px 0 140px; }
-    .detail-swiper { width: 100%; height: 500px; display: flex; align-items: center; justify-content: center; font-size: 150px; }
-    .detail-info { background: #fff; padding: 30px; margin-bottom: 20px; }
-    .detail-price-row { display: flex; align-items: baseline; margin-bottom: 20px; }
-    .detail-price { font-size: 48px; color: #ff6034; font-weight: bold; }
-    .detail-original { font-size: 28px; color: #999; text-decoration: line-through; margin-left: 20px; }
-    .detailName { font-size: 32px; color: #333; line-height: 1.5; margin-bottom: 16px; }
-    .detail-desc { font-size: 26px; color: #999; line-height: 1.5; }
-    .detail-tags { display: flex; flex-wrap: wrap; margin-top: 20px; }
-    .detail-tag { font-size: 22px; color: #ff6034; padding: 8px 16px; background: #fff0ed; border-radius: 6px; margin-right: 16px; }
-    .sku-section { background: #fff; padding: 30px; margin-bottom: 20px; cursor: pointer; }
-    .sku-header { display: flex; justify-content: space-between; align-items: center; }
-    .sku-label { font-size: 28px; color: #333; }
-    .sku-value { font-size: 28px; color: #666; }
-    .sku-arrow { font-size: 28px; color: #ccc; }
-    .detail-tabs { background: #fff; }
-    .detail-tab-header { display: flex; border-bottom: 1px solid #eee; }
-    .detail-tab { flex: 1; display: flex; align-items: center; justify-content: center; height: 90px; font-size: 28px; color: #666; }
-    .detail-tab.active { color: #ff6034; font-weight: bold; border-bottom: 4px solid #ff6034; }
-    .detail-tab-content { padding: 30px; min-height: 300px; }
-    .detail-bottom { position: fixed; bottom: 0; left: 0; right: 0; max-width: 750px; height: 120px; background: #fff; display: flex; align-items: center; padding: 0 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 201; }
-    .detail-action-item { display: flex; flex-direction: column; align-items: center; margin-right: 30px; font-size: 20px; color: #666; }
-    .detail-action-icon { font-size: 40px; margin-bottom: 8px; }
-    .detail-btn-group { flex: 1; display: flex; }
-    .detail-add-cart { flex: 1; height: 80px; background: #fff; color: #ff6034; font-size: 28px; border: 2px solid #ff6034; border-radius: 40px 0 0 40px; display: flex; align-items: center; justify-content: center; }
-    .detail-buy { flex: 1; height: 80px; background: #ff6034; color: #fff; font-size: 28px; border-radius: 0 40px 40px 0; display: flex; align-items: center; justify-content: center; }
-    .sku-popup { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; }
-    .sku-popup.show { display: block; }
-    .sku-content { position: absolute; bottom: 0; left: 0; right: 0; max-width: 750px; background: #fff; border-radius: 24px 24px 0 0; max-height: 80vh; overflow-y: auto; }
-    .sku-header-section { display: flex; padding: 30px; border-bottom: 1px solid #eee; position: relative; }
-    .sku-goods-img { width: 180px; height: 180px; background: #f5f5f5; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 60px; }
-    .sku-goods-info { flex: 1; margin-left: 20px; }
-    .sku-goods-price { font-size: 36px; color: #ff6034; font-weight: bold; margin-bottom: 8px; }
-    .sku-goods-stock { font-size: 24px; color: #999; margin-bottom: 8px; }
-    .sku-goods-selected { font-size: 24px; color: #333; }
-    .sku-close { position: absolute; top: 20px; right: 20px; font-size: 48px; color: #ccc; }
-    .sku-list { padding: 30px; }
-    .sku-group { margin-bottom: 30px; }
-    .sku-group-name { font-size: 28px; color: #333; font-weight: bold; margin-bottom: 16px; }
-    .sku-options { display: flex; flex-wrap: wrap; }
-    .sku-option { padding: 16px 30px; background: #f5f5f5; border-radius: 8px; font-size: 26px; color: #333; margin-right: 16px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; }
-    .sku-option.active { background: #ff6034; color: #fff; }
-    .sku-num { display: flex; justify-content: space-between; align-items: center; padding: 30px; border-top: 1px solid #eee; }
-    .sku-num-label { font-size: 28px; color: #333; font-weight: bold; }
-    .sku-num-control { display: flex; align-items: center; }
-    .sku-num-btn { width: 56px; height: 56px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; }
-    .sku-num-value { width: 80px; text-align: center; font-size: 28px; }
-    .sku-confirm { padding: 30px; background: #ff6034; color: #fff; font-size: 32px; text-align: center; border-radius: 0 0 24px 24px; cursor: pointer; }
-    .category-page { display: flex; }
-    .category-left { width: 180px; background: #f5f5f5; max-height: calc(100vh - 220px); overflow-y: auto; }
-    .category-tab { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: #333; border-left: 6px solid transparent; cursor: pointer; }
-    .category-tab.active { background: #fff; color: #ff6034; font-weight: bold; border-left-color: #ff6034; }
-    .category-right { flex: 1; padding: 20px; background: #fff; max-height: calc(100vh - 220px); overflow-y: auto; }
-    .sub-title { font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px; }
-    .sub-list { display: flex; flex-wrap: wrap; margin-bottom: 30px; }
-    .sub-item { width: 33.33%; display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; cursor: pointer; }
-    .sub-icon { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-    .sub-name { font-size: 24px; color: #666; }
-    .cart-header { position: fixed; top: 0; left: 0; right: 0; max-width: 750px; z-index: 100; display: flex; justify-content: center; align-items: center; padding: 20px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .cart-title { font-size: 36px; font-weight: bold; color: #333; }
-    .cart-edit { font-size: 28px; color: #ff6034; margin-left: 20px; }
-    .cart-content { padding: 120px 20px 200px; }
-    .cart-item { display: flex; background: #fff; border-radius: 16px; padding: 30px; margin-bottom: 20px; cursor: pointer; }
-    .item-check { width: 40px; height: 40px; border: 2px solid #ddd; border-radius: 50%; margin-right: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.2s; }
-    .item-check.checked { background: #ff6034; border-color: #ff6034; color: #fff; }
-    .item-image { width: 180px; height: 180px; border-radius: 12px; margin-right: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px; }
-    .item-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .item-name { font-size: 28px; color: #333; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .item-specs { font-size: 24px; color: #999; margin-top: 8px; }
-    .item-bottom { display: flex; justify-content: space-between; align-items: center; }
-    .item-price { font-size: 32px; color: #ff6034; font-weight: bold; }
-    .item-num { display: flex; align-items: center; }
-    .num-btn { width: 50px; height: 50px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; transition: all 0.2s; }
-    .num-btn:active { transform: scale(0.9); background: #e0e0e0; }
-    .num-value { width: 60px; text-align: center; font-size: 28px; }
-    .cart-bottom { position: fixed; bottom: 100px; left: 0; right: 0; max-width: 750px; height: 110px; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-    .total-info { display: flex; align-items: baseline; }
-    .total-label { font-size: 26px; color: #666; }
-    .total-price { font-size: 36px; color: #ff6034; font-weight: bold; }
-    .submit-btn { padding: 0 50px; height: 80px; background: #ff6034; color: #fff; font-size: 30px; border-radius: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .user-header { background: linear-gradient(135deg, #ff6034, #ff8a34); padding: 60px 30px 40px; }
-    .user-info { display: flex; align-items: center; margin-bottom: 40px; cursor: pointer; }
-    .user-avatar { width: 120px; height: 120px; border-radius: 50%; background: #fff; margin-right: 24px; display: flex; align-items: center; justify-content: center; font-size: 60px; }
-    .user-detail { flex: 1; }
-    .user-nickname { font-size: 36px; color: #fff; font-weight: bold; margin-bottom: 8px; }
-    .user-phone { font-size: 24px; color: rgba(255,255,255,0.8); }
-    .user-stats { display: flex; justify-content: space-around; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 30px 0; }
-    .stat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-    .stat-value { font-size: 36px; color: #fff; font-weight: bold; margin-bottom: 8px; }
-    .stat-label { font-size: 24px; color: rgba(255,255,255,0.8); }
-    .menu-section { background: #fff; margin: 20px; border-radius: 16px; overflow: hidden; }
-    .menu-item { display: flex; align-items: center; padding: 30px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background 0.2s; }
-    .menu-item:active { background: #f5f5f5; }
-    .menu-item:last-child { border-bottom: none; }
-    .menu-icon { width: 48px; height: 48px; background: #f5f5f5; border-radius: 50%; margin-right: 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-    .menu-name { flex: 1; font-size: 28px; color: #333; }
-    .menu-arrow { font-size: 28px; color: #ccc; }
-    .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .modal-content { width: 90%; max-width: 600px; background: #fff; border-radius: 24px; padding: 40px; }
-    .modal-title { font-size: 36px; font-weight: bold; color: #333; text-align: center; margin-bottom: 30px; }
-    .modal-text { font-size: 28px; color: #666; line-height: 1.8; margin-bottom: 30px; }
-    .modal-btn { width: 100%; height: 88px; background: #ff6034; color: #fff; font-size: 32px; border-radius: 44px; border: none; cursor: pointer; }
-    .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: #fff; padding: 20px 40px; border-radius: 12px; font-size: 28px; z-index: 9999; animation: fadeIn 0.3s ease; }
-    .skeleton-banner { width: 100%; height: 320px; }
-    .skeleton-nav { display: flex; justify-content: space-around; padding: 30px 20px; background: #fff; margin-bottom: 20px; }
-    .skeleton-nav-item { width: 90px; height: 90px; border-radius: 50%; }
-    .skeleton-section { background: #fff; padding: 30px; margin-bottom: 20px; }
-    .skeleton-title { width: 200px; height: 40px; border-radius: 8px; margin-bottom: 30px; }
-    .skeleton-goods { width: 48%; margin-bottom: 20px; }
-    .skeleton-image { width: 100%; height: 340px; border-radius: 16px 16px 0 0; }
-    .skeleton-text { height: 30px; margin-top: 16px; border-radius: 8px; }
-  </style>
+  <title>通用商城 - 首页</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="modal" id="privacyModal">
-    <div class="modal-content">
-      <div class="modal-title">隐私保护指引</div>
-      <div class="modal-text">感谢您使用本商城！<br><br>在使用服务前，请您仔细阅读并同意以下协议：<br><br>1. 《用户协议》<br>2. 《隐私政策》<br><br>点击"同意"即表示您已阅读并接受上述全部协议。</div>
-      <button class="modal-btn" onclick="agreePrivacy()">同意</button>
-    </div>
-  </div>
-
-  <div class="page active" id="Page-home">
-    <div class="header"><div class="search-bar">🔍 搜索商品</div></div>
-    <div class="content" id="homeContent">
+  <div class="page-home">
+    <div class="header"><a href="search.html" class="search-bar">🔍 搜索商品</a></div>
+    <div class="content">
       <div id="homeSkeleton">
         <div class="skeleton skeleton-banner"></div>
         <div class="skeleton-nav"><div class="skeleton skeleton-nav-item" v-for="i in 6"></div></div>
-        <div class="skeleton-section">
-          <div class="skeleton skeleton-title"></div>
-          <div class="goods-grid">
-            <div class="skeleton-goods" v-for="i in 4"><div class="skeleton skeleton-image"></div><div class="skeleton skeleton-text" style="margin: 16px;"></div><div class="skeleton skeleton-text" style="width: 60%; height: 24px; margin: 0 16px;"></div></div>
-          </div>
+        <div class="skeleton-section"><div class="skeleton skeleton-title"></div>
+          <div class="goods-grid"><div class="skeleton-goods" v-for="i in 4"><div class="skeleton skeleton-image"></div><div class="skeleton skeleton-text" style="margin:16px"></div></div></div>
         </div>
       </div>
-      <div id="homeReal" style="display: none;">
-        <div class="banner" onclick="showToast('Banner点击')"><div class="banner-title">限时特惠</div><div class="banner-sub">爆款商品 5折起</div></div>
+      <div id="homeReal" style="display:none">
+        <div class="banner"><div class="banner-title">限时特惠</div><div class="banner-sub">爆款商品 5折起</div></div>
         <div class="category-nav">
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#e8f5e9">🍎</div><div class="category-name">食品生鲜</div></div>
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#e3f2fd">📱</div><div class="category-name">数码电子</div></div>
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#fce4ec">👕</div><div class="category-name">服装鞋包</div></div>
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#f3e5f5">💄</div><div class="category-name">美妆护肤</div></div>
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#fff3e0">🏠</div><div class="category-name">家居生活</div></div>
-          <div class="category-item" onclick="switchTab('category')"><div class="category-icon" style="background:#e8eaf6">📚</div><div class="category-name">图书文具</div></div>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#e8f5e9">🍎</div><div class="category-name">食品生鲜</div></a>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#e3f2fd">📱</div><div class="category-name">数码电子</div></a>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#fce4ec">👕</div><div class="category-name">服装鞋包</div></a>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#f3e5f5">💄</div><div class="category-name">美妆护肤</div></a>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#fff3e0">🏠</div><div class="category-name">家居生活</div></a>
+          <a href="category.html" class="category-item"><div class="category-icon" style="background:#e8eaf6">📚</div><div class="category-name">图书文具</div></a>
         </div>
         <div class="section">
-          <div class="section-header"><div class="section-title">热门推荐</div><div class="section-more" onclick="switchTab('category')">查看更多 ></div></div>
+          <div class="section-header"><div class="section-title">热门推荐</div><a href="category.html" class="section-more">查看更多 ></a></div>
           <div class="goods-grid">
-            <div class="goods-item" onclick="showDetail(1)"><div class="goods-image" style="background:#e8f5e9">🍎</div><div class="goods-info"><div class="goods-name">新鲜红富士苹果 5斤装</div><div class="goods-bottom"><div class="goods-price">¥29.9</div><div class="goods-sales">已售1000</div></div></div></div>
-            <div class="goods-item" onclick="showDetail(2)"><div class="goods-image" style="background:#e8f5e9">🥦</div><div class="goods-info"><div class="goods-name">有机西兰花 500g</div><div class="goods-bottom"><div class="goods-price">¥12.8</div><div class="goods-sales">已售800</div></div></div></div>
-            <div class="goods-item" onclick="showDetail(3)"><div class="goods-image" style="background:#e3f2fd">📱</div><div class="goods-info"><div class="goods-name">iPhone 15 Pro Max 256G</div><div class="goods-bottom"><div class="goods-price">¥8999</div><div class="goods-sales">已售500</div></div></div></div>
-            <div class="goods-item" onclick="showDetail(4)"><div class="goods-image" style="background:#fce4ec">👕</div><div class="goods-info"><div class="goods-name">女士纯棉T恤 简约百搭</div><div class="goods-bottom"><div class="goods-price">¥59</div><div class="goods-sales">已售2000</div></div></div></div>
+            <a href="detail.html?id=1" class="goods-item"><div class="goods-image" style="background:#e8f5e9">🍎</div><div class="goods-info"><div class="goods-name">新鲜红富士苹果 5斤装</div><div class="goods-bottom"><div class="goods-price">¥29.9</div><div class="goods-sales">已售1000</div></div></div></a>
+            <a href="detail.html?id=2" class="goods-item"><div class="goods-image" style="background:#e8f5e9">🥦</div><div class="goods-info"><div class="goods-name">有机西兰花 500g</div><div class="goods-bottom"><div class="goods-price">¥12.8</div><div class="goods-sales">已售800</div></div></div></a>
+            <a href="detail.html?id=3" class="goods-item"><div class="goods-image" style="background:#e3f2fd">📱</div><div class="goods-info"><div class="goods-name">iPhone 15 Pro Max 256G</div><div class="goods-bottom"><div class="goods-price">¥8999</div><div class="goods-sales">已售500</div></div></div></a>
+            <a href="detail.html?id=4" class="goods-item"><div class="goods-image" style="background:#fce4ec">👕</div><div class="goods-info"><div class="goods-name">女士纯棉T恤 简约百搭</div><div class="goods-bottom"><div class="goods-price">¥59</div><div class="goods-sales">已售2000</div></div></div></a>
           </div>
         </div>
         <div class="section">
           <div class="section-header"><div class="section-title">猜你喜欢</div></div>
           <div class="goods-grid">
-            <div class="goods-item" onclick="showDetail(5)"><div class="goods-image" style="background:#f3e5f5">💄</div><div class="goods-info"><div class="goods-name">玻尿酸保湿面膜 10片装</div><div class="goods-bottom"><div class="goods-price">¥39.9</div><div class="goods-sales">特惠</div></div></div></div>
-            <div class="goods-item" onclick="showDetail(6)"><div class="goods-image" style="background:#fff3e0">💡</div><div class="goods-info"><div class="goods-name">北欧简约台灯</div><div class="goods-bottom"><div class="goods-price">¥89</div><div class="goods-sales">特惠</div></div></div></div>
+            <a href="detail.html?id=5" class="goods-item"><div class="goods-image" style="background:#f3e5f5">💄</div><div class="goods-info"><div class="goods-name">玻尿酸保湿面膜 10片装</div><div class="goods-bottom"><div class="goods-price">¥39.9</div><div class="goods-sales">特惠</div></div></div></a>
+            <a href="detail.html?id=6" class="goods-item"><div class="goods-image" style="background:#fff3e0">💡</div><div class="goods-info"><div class="goods-name">北欧简约台灯</div><div class="goods-bottom"><div class="goods-price">¥89</div><div class="goods-sales">特惠</div></div></div></a>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="page" id="Page-category">
-    <div class="header" style="background:#fff"><div class="search-bar">🔍 搜索商品</div></div>
-    <div class="category-page" style="padding-top:112px">
-      <div class="category-left">
-        <div class="category-tab active" onclick="selectCategory(this)">食品生鲜</div>
-        <div class="category-tab" onclick="selectCategory(this)">数码电子</div>
-        <div class="category-tab" onclick="selectCategory(this)">服装鞋包</div>
-        <div class="category-tab" onclick="selectCategory(this)">美妆护肤</div>
-        <div class="category-tab" onclick="selectCategory(this)">家居生活</div>
-        <div class="category-tab" onclick="selectCategory(this)">图书文具</div>
-      </div>
-      <div class="category-right">
-        <div class="sub-title">食品生鲜</div>
-        <div class="sub-list">
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🍎</div><div class="sub-name">水果</div></div>
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥬</div><div class="sub-name">蔬菜</div></div>
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥩</div><div class="sub-name">肉类</div></div>
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🦐</div><div class="sub-name">海鲜</div></div>
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🍪</div><div class="sub-name">零食</div></div>
-          <div class="sub-item"><div class="sub-icon" style="background:#e8f5e9">🥤</div><div class="sub-name">饮料</div></div>
-        </div>
-        <div class="section-title" style="padding:20px 0">热门商品</div>
-        <div class="goods-grid" style="background:#fff;padding:20px;border-radius:16px">
-          <div class="goods-item" onclick="showDetail(1)"><div class="goods-image" style="background:#e8f5e9;height:200px">🍎</div><div class="goods-info"><div class="goods-name">新鲜红富士苹果</div><div class="goods-bottom"><div class="goods-price">¥29.9</div></div></div></div>
-          <div class="goods-item" onclick="showDetail(2)"><div class="goods-image" style="background:#e8f5e9;height:200px">🥦</div><div class="goods-info"><div class="goods-name">有机西兰花</div><div class="goods-bottom"><div class="goods-price">¥12.8</div></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="page" id="Page-cart">
-    <div class="cart-header"><div class="cart-title">购物车</div><div class="cart-edit" onclick="toggleEdit()">编辑</div></div>
-    <div class="cart-content">
-      <div class="cart-item" onclick="toggleCartCheck(this)"><div class="item-check checked">✓</div><div class="item-image" style="background:#e8f5e9">🍎</div><div class="item-info"><div class="item-name">新鲜红富士苹果 5斤装</div><div class="item-specs">5斤装</div><div class="item-bottom"><div class="item-price">¥29.9</div><div class="item-num"><div class="num-btn" onclick="event.stopPropagation();changeNum(this, -1)">-</div><div class="num-value">1</div><div class="num-btn" onclick="event.stopPropagation();changeNum(this, 1)">+</div></div></div></div></div>
-      <div class="cart-item" onclick="toggleCartCheck(this)"><div class="item-check">✓</div><div class="item-image" style="background:#e3f2fd">📱</div><div class="item-info"><div class="item-name">iPhone 15 Pro Max 256G</div><div class="item-specs">原色钛金属 256G</div><div class="item-bottom"><div class="item-price">¥8999</div><div class="item-num"><div class="num-btn" onclick="event.stopPropagation();changeNum(this, -1)">-</div><div class="num-value">1</div><div class="num-btn" onclick="event.stopPropagation();changeNum(this, 1)">+</div></div></div></div></div>
-    </div>
-    <div class="cart-bottom"><div class="total-info"><div class="total-label">合计:</div><div class="total-price">¥9028.9</div></div><div class="submit-btn" onclick="showToast('去结算')">结算(2)</div></div>
-  </div>
-
-  <div class="page" id="Page-user">
-    <div class="user-header">
-      <div class="user-info"><div class="user-avatar">👤</div><div class="user-detail"><div class="user-nickname">用户123</div><div class="user-phone">138****8888</div></div></div>
-      <div class="user-stats">
-        <div class="stat-item"><div class="stat-value">1000</div><div class="stat-label">积分</div></div>
-        <div class="stat-item"><div class="stat-value">3</div><div class="stat-label">优惠券</div></div>
-        <div class="stat-item"><div class="stat-value">Lv.2</div><div class="stat-label">等级</div></div>
-      </div>
-    </div>
-    <div class="section" style="margin:20px">
-      <div class="section-header" style="border:none;padding:30px"><div class="section-title">我的订单</div><div class="section-more">全部订单 ></div></div>
-      <div style="display:flex;padding:0 30px 30px">
-        <div style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">⏰</div><div style="font-size:24px;color:#666">待付款</div></div>
-        <div style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">📦</div><div style="font-size:24px;color:#666">待发货</div></div>
-        <div style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">🚚</div><div style="font-size:24px;color:#666">待收货</div></div>
-        <div style="flex:1;text-align:center"><div style="font-size:48px;margin-bottom:12px">⭐</div><div style="font-size:24px;color:#666">待评价</div></div>
-      </div>
-    </div>
-    <div class="menu-section"><div class="menu-item"><div class="menu-icon">📍</div><div class="menu-name">收货地址</div><div class="menu-arrow">></div></div><div class="menu-item"><div class="menu-icon">🎫</div><div class="menu-name">优惠券</div><div class="menu-arrow">></div></div><div class="menu-item"><div class="menu-icon">❤️</div><div class="menu-name">我的收藏</div><div class="menu-arrow">></div></div><div class="menu-item"><div class="menu-icon">🕐</div><div class="menu-name">浏览历史</div><div class="menu-arrow">></div></div></div>
-    <div class="menu-section"><div class="menu-item"><div class="menu-icon">💬</div><div class="menu-name">意见反馈</div><div class="menu-arrow">></div></div><div class="menu-item"><div class="menu-icon">📞</div><div class="menu-name">联系客服</div><div class="menu-arrow">></div></div><div class="menu-item"><div class="menu-icon">⚙️</div><div class="menu-name">设置</div><div class="menu-arrow">></div></div></div>
-  </div>
-
-  <div class="detail-page" id="detailPage">
-    <div class="detail-header"><div class="back-btn" onclick="closeDetail()">←</div><div class="detail-title">商品详情</div><div class="back-btn" onclick="closeDetail()">⋯</div></div>
-    <div class="detail-content">
-      <div class="detail-swiper" id="detailSwiper">🍎</div>
-      <div class="detail-info">
-        <div class="detail-price-row"><div class="detail-price" id="detailPrice">¥29.9</div><div class="detail-original" id="detailOriginal">¥49.9</div></div>
-        <div class="detailName" id="detailName">新鲜红富士苹果 5斤装</div>
-        <div class="detail-desc" id="detailDesc">产地直发，新鲜采摘，脆甜多汁，营养健康</div>
-        <div class="detail-tags"><div class="detail-tag">有货</div><div class="detail-tag">正品保证</div><div class="detail-tag">极速发货</div></div>
-      </div>
-      <div class="sku-section" onclick="showSkuPopup()"><div class="sku-header"><div class="sku-label">选择</div><div class="sku-value" id="skuSelected">请选择规格</div><div class="sku-arrow">></div></div></div>
-      <div class="detail-tabs">
-        <div class="detail-tab-header"><div class="detail-tab active" onclick="switchDetailTab('detail')">商品详情</div><div class="detail-tab" onclick="switchDetailTab('comment')">用户评价</div></div>
-        <div class="detail-tab-content" id="detailTabContent"><div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">📦</div><div>商品详情图片展示区</div></div></div>
-      </div>
-    </div>
-    <div class="detail-bottom">
-      <div class="detail-action-item"><div class="detail-action-icon">❤️</div><div>收藏</div></div>
-      <div class="detail-action-item" onclick="switchTab('cart')"><div class="detail-action-icon">🛒</div><div>购物车</div></div>
-      <div class="detail-btn-group"><div class="detail-add-cart" onclick="addToCart()">加入购物车</div><div class="detail-buy" onclick="buyNow()">立即购买</div></div>
-    </div>
-  </div>
-
-  <div class="sku-popup" id="skuPopup">
-    <div class="sku-content">
-      <div class="sku-header-section"><div class="sku-goods-img" id="skuImg">🍎</div><div class="sku-goods-info"><div class="sku-goods-price" id="skuPrice">¥29.9</div><div class="sku-goods-stock">库存: 100件</div><div class="sku-goods-selected" id="skuSelectedText">请选择规格</div></div><div class="sku-close" onclick="closeSkuPopup()">×</div></div>
-      <div class="sku-list"><div class="sku-group"><div class="sku-group-name">规格</div><div class="sku-options"><div class="sku-option" onclick="selectSku(this, '5斤装')">5斤装</div><div class="sku-option" onclick="selectSku(this, '10斤装')">10斤装</div></div></div></div>
-      <div class="sku-num"><div class="sku-num-label">购买数量</div><div class="sku-num-control"><div class="sku-num-btn" onclick="skuChangeNum(-1)">-</div><div class="sku-num-value" id="skuNum">1</div><div class="sku-num-btn" onclick="skuChangeNum(1)">+</div></div></div>
-      <div class="sku-confirm" onclick="confirmSku()">确定</div>
-    </div>
-  </div>
-
   <div class="tabbar">
-    <div class="tab-item active" onclick="switchTab('home')"><div class="tab-icon">🏠</div><div>首页</div></div>
-    <div class="tab-item" onclick="switchTab('category')"><div class="tab-icon">📋</div><div>分类</div></div>
-    <div class="tab-item" onclick="switchTab('cart')"><div class="tab-icon">🛒</div><div>购物车</div></div>
-    <div class="tab-item" onclick="switchTab('user')"><div class="tab-icon">👤</div><div>我的</div></div>
+    <a href="index.html" class="tab-item active"><div class="tab-icon">🏠</div><div>首页</div></a>
+    <a href="category.html" class="tab-item"><div class="tab-icon">📋</div><div>分类</div></a>
+    <a href="cart.html" class="tab-item"><div class="tab-icon">🛒</div><div>购物车</div></a>
+    <a href="user.html" class="tab-item"><div class="tab-icon">👤</div><div>我的</div></a>
   </div>
-
-  <script>
-    let currentTab = 'home';
-    let currentSku = '';
-    let skuNum = 1;
-    let isRefreshing = false;
-    const goodsList = [
-      { id: 1, name: '新鲜红富士苹果 5斤装', price: 29.9, originalPrice: 49.9, desc: '产地直发，新鲜采摘，脆甜多汁，营养健康', icon: '🍎' },
-      { id: 2, name: '有机西兰花 500g', price: 12.8, originalPrice: 18.8, desc: '有机种植，无农药残留，新鲜直达', icon: '🥦' },
-      { id: 3, name: 'iPhone 15 Pro Max 256G', price: 8999, originalPrice: 9999, desc: '全新A17 Pro芯片，钛金属设计，强劲性能', icon: '📱' },
-      { id: 4, name: '女士纯棉T恤 简约百搭', price: 59, originalPrice: 129, desc: '100%纯棉面料，柔软舒适，透气吸汗', icon: '👕' },
-      { id: 5, name: '玻尿酸保湿面膜 10片装', price: 39.9, originalPrice: 89.9, desc: '深层补水保湿，焕亮肌肤，适合各种肤质', icon: '💄' },
-      { id: 6, name: '北欧简约台灯', price: 89, originalPrice: 169, desc: '现代简约设计，光线柔和护眼，装饰首选', icon: '💡' }
-    ];
-    window.onload = function() {
-      setTimeout(() => {
-        document.getElementById('homeSkeleton').style.display = 'none';
-        document.getElementById('homeReal').style.display = 'block';
-      }, 1500);
-    };
-    function agreePrivacy() { document.getElementById('privacyModal').style.display = 'none'; localStorage.setItem('privacy_agreed', true); }
-    function switchTab(tab) {
-      currentTab = tab;
-      document.querySelectorAll('.tab-item').forEach((item, i) => { const tabs = ['home', 'category', 'cart', 'user']; item.classList.toggle('active', tabs[i] === tab); });
-      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      document.getElementById('Page-' + tab).classList.add('active');
-      if (tab === 'home') { pullToRefresh(); }
-    }
-    function pullToRefresh() { if (isRefreshing) return; isRefreshing = true; document.getElementById('homeReal').style.display = 'none'; document.getElementById('homeSkeleton').style.display = 'block'; setTimeout(() => { document.getElementById('homeSkeleton').style.display = 'none'; document.getElementById('homeReal').style.display = 'block'; isRefreshing = false; showToast('刷新成功'); }, 1000); }
-    function selectCategory(el) { document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active')); el.classList.add('active'); document.querySelector('.sub-title').textContent = el.textContent; }
-    function showDetail(id) { const goods = goodsList.find(g => g.id === id); if (goods) { document.getElementById('detailSwiper').textContent = goods.icon; document.getElementById('detailPrice').textContent = '¥' + goods.price; document.getElementById('detailOriginal').textContent = '¥' + goods.originalPrice; document.getElementById('detailName').textContent = goods.name; document.getElementById('detailDesc').textContent = goods.desc; document.getElementById('skuImg').textContent = goods.icon; document.getElementById('skuPrice').textContent = '¥' + goods.price; document.getElementById('detailPage').classList.add('show'); } }
-    function closeDetail() { document.getElementById('detailPage').classList.remove('show'); }
-    function showSkuPopup() { document.getElementById('skuPopup').classList.add('show'); }
-    function closeSkuPopup() { document.getElementById('skuPopup').classList.remove('show'); }
-    function selectSku(el, spec) { document.querySelectorAll('.sku-option').forEach(opt => opt.classList.remove('active')); el.classList.add('active'); currentSku = spec; document.getElementById('skuSelected').textContent = spec; document.getElementById('skuSelectedText').textContent = '已选择: ' + spec; }
-    function skuChangeNum(delta) { skuNum = Math.max(1, skuNum + delta); document.getElementById('skuNum').textContent = skuNum; }
-    function confirmSku() { if (!currentSku) { showToast('请选择规格'); return; } closeSkuPopup(); showToast('已选择: ' + currentSku + ' x' + skuNum); }
-    function addToCart() { if (!currentSku) { showSkuPopup(); return; } showToast('加入购物车成功'); }
-    function buyNow() { if (!currentSku) { showSkuPopup(); return; } showToast('正在跳转结算...'); }
-    function switchDetailTab(tab) { document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); const content = document.getElementById('detailTabContent'); if (tab === 'detail') { content.innerHTML = '<div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">📦</div><div>商品详情图片展示区</div></div>'; } else { content.innerHTML = '<div style="text-align:center;padding:60px;color:#999"><div style="font-size:80px;margin-bottom:20px">⭐</div><div>暂无评价</div></div>'; } }
-    function toggleCartCheck(el) { const check = el.querySelector('.item-check'); check.classList.toggle('checked'); }
-    function changeNum(el, delta) { const valueEl = el.parentElement.querySelector('.num-value'); let value = parseInt(valueEl.textContent) + delta; value = Math.max(1, value); valueEl.textContent = value; }
-    function toggleEdit() { const editBtn = document.querySelector('.cart-edit'); editBtn.textContent = editBtn.textContent === '编辑' ? '完成' : '编辑'; }
-    function showToast(msg) { const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2000); }
-    if (localStorage.getItem('privacy_agreed')) { document.getElementById('privacyModal').style.display = 'none'; }
-  </script>
+  <script src="app.js"></script>
+  <script>window.onload=function(){setTimeout(function(){document.getElementById('homeSkeleton').style.display='none';document.getElementById('homeReal').style.display='block';},1500)};</script>
 </body>
 </html>

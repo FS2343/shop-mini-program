@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="通用商城 - 搜索">
+  <title>通用商城 - 搜索</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .search-header{position:fixed;top:0;left:0;right:0;max-width:750px;z-index:100;display:flex;align-items:center;padding:20px 30px;padding-top:calc(20px + env(safe-area-top));background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+    .search-box{flex:1;display:flex;align-items:center;height:72px;padding:0 24px;background:#f5f5f5;border-radius:36px}
+    .search-icon{font-size:28px;color:#999;margin-right:12px}
+    .search-input{flex:1;font-size:28px;color:#333;background:none;border:none;outline:none}
+    .search-cancel{font-size:28px;color:#333;margin-left:24px}
+    .search-content{padding-top:132px;padding-bottom:120px}
+    .history-section{background:#fff;padding:30px;margin-bottom:20px}
+    .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .section-title{font-size:28px;font-weight:bold;color:#333}
+    .section-clear{font-size:24px;color:#999}
+    .history-tags{display:flex;flex-wrap:wrap}
+    .history-tag{padding:12px 30px;background:#f5f5f5;border-radius:30px;font-size:26px;color:#666;margin-right:16px;margin-bottom:16px}
+    .hot-list{}
+    .hot-item{display:flex;align-items:center;padding:20px 0;border-bottom:1px solid #f5f5f5}
+    .hot-item:last-child{border-bottom:none}
+    .hot-rank{width:40px;font-size:26px;color:#999}
+    .hot-rank.top{color:#ff6034;font-weight:bold}
+    .hot-name{flex:1;font-size:28px;color:#333;margin-left:20px}
+    .hot-hot{font-size:22px;color:#999}
+    .search-result{padding:0 20px}
+    .goods-list{background:#fff;border-radius:16px;padding:0 30px}
+    .goods-list-item{display:flex;padding:30px 0;border-bottom:1px solid #f5f5f5}
+    .goods-list-item:last-child{border-bottom:none}
+    .list-image{width:180px;height:180px;background:#f5f5f5;border-radius:12px;margin-right:24px;display:flex;align-items:center;justify-content:center;font-size:60px;flex-shrink:0}
+    .list-info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+    .list-name{font-size:28px;color:#333;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .list-desc{font-size:24px;color:#999;margin-top:8px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+    .list-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+    .list-price{font-size:32px;color:#ff6034;font-weight:bold}
+    .list-sales{font-size:22px;color:#999}
+    .empty-state{padding:200px 0;display:flex;flex-direction:column;align-items:center}
+    .empty-icon{font-size:120px;margin-bottom:30px}
+    .empty-text{font-size:28px;color:#999;margin-bottom:40px}
+  </style>
+</head>
+<body>
+  <div class="search-header">
+    <div class="search-box"><span class="search-icon">🔍</span><input type="text" class="search-input" id="searchInput" placeholder="搜索商品" oninput="onSearch()"></div>
+    <a href="index.html" class="search-cancel">取消</a>
+  </div>
+  <div class="search-content">
+    <div id="searchHome">
+      <div class="history-section">
+        <div class="section-header"><div class="section-title">搜索历史</div><div class="section-clear" onclick="clearHistory()">清除</div></div>
+        <div class="history-tags" id="historyTags">
+          <span class="history-tag" onclick="searchByKeyword('苹果')">苹果</span>
+          <span class="history-tag" onclick="searchByKeyword('iPhone')">iPhone</span>
+          <span class="history-tag" onclick="searchByKeyword('面膜')">面膜</span>
+        </div>
+      </div>
+      <div class="history-section">
+        <div class="section-header"><div class="section-title">热门搜索</div></div>
+        <div class="hot-list">
+          <div class="hot-item" onclick="searchByKeyword('iPhone')"><span class="hot-rank top">1</span><span class="hot-name">iPhone</span><span class="hot-hot">🔥 10万+</span></div>
+          <div class="hot-item" onclick="searchByKeyword('苹果')"><span class="hot-rank top">2</span><span class="hot-name">苹果</span><span class="hot-hot">🔥 8万+</span></div>
+          <div class="hot-item" onclick="searchByKeyword('T恤')"><span class="hot-rank top">3</span><span class="hot-name">T恤</span><span class="hot-hot">🔥 6万+</span></div>
+          <div class="hot-item" onclick="searchByKeyword('面膜')"><span class="hot-rank">4</span><span class="hot-name">面膜</span><span class="hot-hot">🔥 5万+</span></div>
+          <div class="hot-item" onclick="searchByKeyword('台灯')"><span class="hot-rank">5</span><span class="hot-name">台灯</span><span class="hot-hot">🔥 3万+</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="searchResult" style="display:none" class="search-result">
+      <div class="goods-list" id="resultList"></div>
+    </div>
+    <div id="searchEmpty" style="display:none" class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">未找到相关商品</div></div>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    const goodsList=[{id:1,name:'新鲜红富士苹果 5斤装',price:29.9,originalPrice:49.9,desc:'产地直发，新鲜采摘',sales:1000,icon:'🍎'},{id:2,name:'有机西兰花 500g',price:12.8,originalPrice:18.8,desc:'有机种植，无农药残留',sales:800,icon:'🥦'},{id:3,name:'iPhone 15 Pro Max 256G',price:8999,originalPrice:9999,desc:'全新A17 Pro芯片',sales:500,icon:'📱'},{id:4,name:'女士纯棉T恤 简约百搭',price:59,originalPrice:129,desc:'100%纯棉面料',sales:2000,icon:'👕'},{id:5,name:'玻尿酸保湿面膜 10片装',price:39.9,originalPrice:89.9,desc:'深层补水保湿',sales:1500,icon:'💄'},{id:6,name:'北欧简约台灯',price:89,originalPrice:169,desc:'现代简约设计',sales:600,icon:'💡'}];
+    let searchTimeout;
+    function onSearch(){clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>{const kw=document.getElementById('searchInput').value.trim();if(kw){performSearch(kw)}else{showHome()}},300)}
+    function performSearch(kw){const results=goodsList.filter(g=>g.name.includes(kw)||g.desc.includes(kw));if(results.length>0){document.getElementById('searchHome').style.display='none';document.getElementById('searchEmpty').style.display='none';document.getElementById('searchResult').style.display='block';document.getElementById('resultList').innerHTML=results.map(g=>'<a href="detail.html?id='+g.id+'" class="goods-list-item"><div class="list-image">'+g.icon+'</div><div class="list-info"><div class="list-name">'+g.name+'</div><div class="list-desc">'+g.desc+'</div><div class="list-bottom"><div class="list-price">¥'+g.price+'</div><div class="list-sales">'+g.sales+'人付款</div></div></div></a>').join('')}else{document.getElementById('searchHome').style.display='none';document.getElementById('searchResult').style.display='none';document.getElementById('searchEmpty').style.display='flex'}}
+    function searchByKeyword(kw){document.getElementById('searchInput').value=kw;performSearch(kw)}
+    function showHome(){document.getElementById('searchHome').style.display='block';document.getElementById('searchResult').style.display='none';document.getElementById('searchEmpty').style.display='none'}
+    function clearHistory(){showToast('历史记录已清除')}
+  </script>
+</body>
+</html>
